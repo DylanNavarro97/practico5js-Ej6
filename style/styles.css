@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap');
+
+body {
+    min-height: 100vh;
+}
+
+section {
+    width: 98%;
+    min-width: 270px;
+    max-width: 550px;
+    font-family: Oswald;
+    font-size: 60px;
+
+    border-radius: 5px;
+}
+
+section div {
+    white-space: nowrap;
+}
+
+#horas, #minutos, #segundos{
+    width: 70px;
+}
+
+#milisegundos{
+    width: 89px;
+} 
+
+
+@media all and (max-width: 400px){
+
+    #horas, #minutos, #segundos{
+        width: 48px;
+    }
+
+    #milisegundos{
+        width: 52px;
+    } 
+
+    section {
+        font-size: 35px;
+    }
+}
