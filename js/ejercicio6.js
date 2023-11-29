@@ -5,61 +5,76 @@ const horasElement = document.querySelector('#horas')
 const minutosElement = document.querySelector('#minutos')  
 const segundosElement = document.querySelector('#segundos')  
 const milisegundosElement = document.querySelector('#milisegundos')  
+const contenedorTemporizador = document.querySelector('#temporizador-container')
 
 let detener = true
-let milisegundos = 0
-let segundos = 0
-let minutos = 0
-let horas = 0
 
-function iniciarCronometro (){
+function iniciarTemporizador (){
 
     detener = false
-    
 
+    let milisegundos = parseInt(milisegundosElement.textContent)
+    let segundos = parseInt(segundosElement.textContent)
+    let minutos = parseInt(minutosElement.textContent)
+    let horas = parseInt(horasElement.textContent)
+    
     let intervalo = setInterval(() => {
 
         if (detener === false) {
-            milisegundos++
-
-            if (milisegundos === 1000){
-                milisegundos = 0
-                segundos++
-
-                if (segundos < 10){
-                    segundosElement.innerHTML = `0${segundos}`
-                } else {
-                    segundosElement.innerHTML = segundos
-                }
-            }
-    
-            if (segundos === 60){
-                segundos = 0
-                minutos++
-
-                if (minutos < 10){
-                    minutosElement.innerHTML = `0${minutos}`
-                } else {
-                    minutosElement.innerHTML = `${minutos}`
-                }
-            }
-    
-            if (minutos === 60){
-                minutos = 0
-                horas++
-
-                if (horas < 10){
-                    horasElement.innerHTML = `0${horas}`
-                } else {
-                    horasElement.innerHTML = horas
-                }
-            }
-    
-            if (milisegundos < 10){
-                milisegundosElement.innerHTML = `00${milisegundos}`
+            // Condicional para detener el temporizador
+            if (milisegundos > 0 || segundos > 0 || minutos > 0 || horas > 0){
+                milisegundos--
             } else {
-                milisegundosElement.innerHTML = `${milisegundos}`
+                detener = true
             }
+
+            if (segundos > 0){
+                if (milisegundos <= 0){
+                    milisegundos = 999
+                    segundos--
+                    if (segundos < 10){
+                        segundosElement.textContent = `0${segundos}`
+                    } else {
+                        segundosElement.textContent = segundos
+                    }
+                }
+            }
+
+            if (minutos > 0){
+                if (segundos <= 0){
+                    segundos = 60
+                    minutos--
+                    if (minutos < 10){
+                        minutosElement.textContent = `0${minutos}`
+                    } else {
+                        minutosElement.textContent = `${minutos}`
+                    }
+                }
+            }
+
+            if (horas > 0){
+                if (minutos <= 0){
+                    minutos = 60
+                    horas--
+                    if (horas < 10){
+                        horasElement.textContent = `0${horas}`
+                    } else {
+                        horasElement.textContent = horas
+                    }
+                }
+            }
+
+            if (milisegundos < 100){
+                milisegundosElement.textContent = `0${milisegundos}`
+            }
+            if (milisegundos < 10){
+                milisegundosElement.textContent = `00${milisegundos}`
+            } else {
+                milisegundosElement.textContent = `${milisegundos}`
+            }
+            
+
+            
         }
     }, 1)
 
@@ -80,14 +95,40 @@ function reiniciarCronometro (){
     minutos = 0
     horas = 0
 
-    milisegundosElement.innerHTML = `00${milisegundos}`
-    segundosElement.innerHTML = `0${segundos}`
-    minutosElement.innerHTML = `0${minutos}`
-    horasElement.innerHTML = `0${horas}`
+    milisegundosElement.textContent = `000`
+    segundosElement.textContent = `00`
+    minutosElement.textContent = `00`
+    horasElement.textContent = `00`
 
 }
 
-botonIniciar.addEventListener('click', iniciarCronometro)
+function verificarInputs(variable, elemento, cantidadLimite, ceros){
+
+    if (variable.length > cantidadLimite) {
+        contenido = variable.slice(0, cantidadLimite);
+        elemento.textContent = contenido;
+    }
+
+    if (!/^\d+$/.test(elemento.textContent)){
+        alert('Solo se pueden ingresar números')
+        elemento.textContent = ceros
+    }
+}
+
+contenedorTemporizador.addEventListener('input', () => {
+
+    let milisegundos = milisegundosElement.textContent
+    let segundos = segundosElement.textContent
+    let minutos = minutosElement.textContent
+    let horas = horasElement.textContent
+    
+    verificarInputs(milisegundos, milisegundosElement, 3, "000")
+    verificarInputs(segundos, segundosElement, 2, "00")
+    verificarInputs(minutos, minutosElement, 2, "00")
+    verificarInputs(horas, horasElement, 2, "00")
+})
+
+botonIniciar.addEventListener('click', iniciarTemporizador)
 botonDetener.addEventListener('click', detenerCronometro)
 botonReiniciar.addEventListener('click', reiniciarCronometro)
 

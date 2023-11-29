@@ -24,6 +24,7 @@ section div {
 
 #milisegundos{
     width: 89px;
+    overflow: hidden;
 } 
 
 
