@@ -11,12 +11,19 @@ let detener = true
 
 function iniciarTemporizador (){
 
+    if (detener === true){
+        let milisegundos = 0
+        let segundos = 0
+        let minutos = 0
+        let horas = 0
+    }
+    
     detener = false
 
-    let milisegundos = parseInt(milisegundosElement.textContent)
-    let segundos = parseInt(segundosElement.textContent)
-    let minutos = parseInt(minutosElement.textContent)
-    let horas = parseInt(horasElement.textContent)
+    milisegundos = parseInt(milisegundosElement.textContent)
+    segundos = parseInt(segundosElement.textContent)
+    minutos = parseInt(minutosElement.textContent)
+    horas = parseInt(horasElement.textContent)
     
     let intervalo = setInterval(() => {
 
@@ -76,11 +83,11 @@ function iniciarTemporizador (){
 
             
         }
-    }, 1)
 
-    if (detener === true ){
-        clearInterval(intervalo)
-    }
+        if (detener === true ){
+            clearInterval(intervalo)
+        }
+    }, 1)
 }
 
 function detenerCronometro (){
